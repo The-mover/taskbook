@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taskbook/ui/utils/fade_in_route.dart';
+import 'package:taskbook/ui/views/login_screen.dart';
+import 'package:taskbook/ui/views/signup_screen.dart';
 import 'package:taskbook/ui/views/splash_screen.dart';
 
 typedef RouterMethod = PageRoute Function(RouteSettings, Map<String, String>);
@@ -14,6 +16,22 @@ final Map<String, RouterMethod> _definitions = {
       settings: settings,
       builder: (context) {
         return SplashScreen();
+      },
+    );
+  },
+  '/login': (settings, _) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) {
+        return LoginScreen();
+      },
+    );
+  },
+  '/signup': (settings, _) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) {
+        return SignupScreen();
       },
     );
   }
@@ -71,13 +89,13 @@ Route buildRouter(RouteSettings settings) {
   );
 }
 
-// void openSignupPage(BuildContext context) {
-//   Navigator.of(context).pushReplacementNamed("/signup");
-// }
+void openSignupPage(BuildContext context) {
+  Navigator.of(context).pushReplacementNamed("/signup");
+}
 
-// void openLoginPage(BuildContext context) {
-//   Navigator.of(context).pushReplacementNamed("/login");
-// }
+void openLoginPage(BuildContext context) {
+  Navigator.of(context).pushReplacementNamed("/login");
+}
 
 // void openMainPage(BuildContext context) {
 //   Navigator.of(context).pushReplacementNamed("/main");
