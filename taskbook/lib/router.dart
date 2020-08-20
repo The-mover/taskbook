@@ -102,6 +102,13 @@ void openSignupPage(BuildContext context) {
   Navigator.of(context).pushReplacementNamed("/signup");
 }
 
+void removeEverythingPushLogin(BuildContext context) {
+  Navigator.of(context).pushNamedAndRemoveUntil(
+    '/login',
+    (Route<dynamic> route) => false,
+  );
+}
+
 void openLoginPage(BuildContext context) {
   Navigator.of(context).pushReplacementNamed("/login");
 }

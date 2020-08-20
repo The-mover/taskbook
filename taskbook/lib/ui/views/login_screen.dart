@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildMainLogo() {
-    return Text('Todo App', style: HeadingStyle.accent);
+    return Text('TaskBook', style: HeadingStyle.accent);
   }
 
   Widget _buildHeading() {

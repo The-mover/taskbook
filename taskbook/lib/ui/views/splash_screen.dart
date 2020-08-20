@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:taskbook/business_logic/view_models/splash_screen_viewmodel.dart';
+import 'package:taskbook/router.dart';
+import 'package:taskbook/services/service_locator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -9,34 +12,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool isUserLoggedIn = true;
+  SplashScreenViewModel viewModel = serviceLocator<SplashScreenViewModel>();
 
   @override
   void initState() {
     super.initState();
-    //checkUserStatus();
     initAppAndNavigate();
   }
 
-  // Future checkUserStatus() async {
-  //   if (await FirebaseAuthService.getCurrentUser() != null) {
-  //     isUserLoggedIn = true;
-  //   } else {
-  //     isUserLoggedIn = false;
-  //   }
-  // }
-
   Future initAppAndNavigate() async {
-    var _duration = new Duration(milliseconds: 3000);
+    var _duration = new Duration(milliseconds: 1000);
     return new Timer(_duration, navigateToMainPage);
   }
 
-  void navigateToMainPage() {
-    isUserLoggedIn
-        ? Navigator.of(context)
-            .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false)
-        : Navigator.of(context)
-            .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+  void navigateToMainPage() async {
+    if (await viewModel.getUser() != null) {
+      openHomeScreen(context);
+    } else {
+      openLoginPage(context);
+    }
   }
 
   @override
