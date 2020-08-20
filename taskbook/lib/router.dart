@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskbook/ui/utils/fade_in_route.dart';
+import 'package:taskbook/ui/views/home_screen.dart';
 import 'package:taskbook/ui/views/login_screen.dart';
 import 'package:taskbook/ui/views/signup_screen.dart';
 import 'package:taskbook/ui/views/splash_screen.dart';
@@ -32,6 +33,14 @@ final Map<String, RouterMethod> _definitions = {
       settings: settings,
       builder: (context) {
         return SignupScreen();
+      },
+    );
+  },
+  '/home_screen': (settings, _) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) {
+        return HomeScreen();
       },
     );
   }
@@ -97,6 +106,6 @@ void openLoginPage(BuildContext context) {
   Navigator.of(context).pushReplacementNamed("/login");
 }
 
-// void openMainPage(BuildContext context) {
-//   Navigator.of(context).pushReplacementNamed("/main");
-// }
+void openHomeScreen(BuildContext context) {
+  Navigator.of(context).pushReplacementNamed("/home_screen");
+}

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbook/business_logic/view_models/login_viewmodel.dart';
 import 'package:taskbook/router.dart';
+import 'package:taskbook/services/service_locator.dart';
 import 'package:taskbook/ui/shared/buttons/primary_button.dart';
 import 'package:taskbook/ui/utils/colors.dart';
 import 'package:taskbook/ui/utils/show_flushbar.dart';
@@ -11,33 +14,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final LoginViewModel viewModel = serviceLocator<LoginViewModel>();
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 50),
-              _buildMainLogo(),
-              SizedBox(height: 15),
-              _buildHeading(),
-              SizedBox(height: 15),
-              _buildSubHeading(),
-              SizedBox(height: 50),
-              _buildEmail(context),
-              SizedBox(height: 15),
-              _buildPassword(context),
-              SizedBox(height: 20),
-              _buildSubmitButton(context),
-              SizedBox(height: 40),
-              _buildSignUpButton(context),
-              SizedBox(height: 20),
-            ],
+    return ChangeNotifierProvider<LoginViewModel>(
+      create: (context) => viewModel,
+      child: Consumer<LoginViewModel>(
+        builder: (context, model, child) => Scaffold(
+          body: Container(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 50),
+                  _buildMainLogo(),
+                  SizedBox(height: 15),
+                  _buildHeading(),
+                  SizedBox(height: 15),
+                  _buildSubHeading(),
+                  SizedBox(height: 50),
+                  _buildEmail(context),
+                  SizedBox(height: 15),
+                  _buildPassword(context),
+                  SizedBox(height: 20),
+                  _buildSubmitButton(context),
+                  SizedBox(height: 40),
+                  _buildSignUpButton(context),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -52,9 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 10),
         GestureDetector(
           child: Text('Signup', style: ButtonTextStyle.accent),
-          onTap: () {
-            openSignupPage(context);
-          },
+          onTap: () => openSignupPage(context),
         ),
       ],
     );
@@ -62,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSubmitButton(BuildContext context) {
     return PrimaryButton(
-      onPressed: () {},
+      onPressed: () => _handleLogin(context),
       label: 'Login',
     );
   }
@@ -128,40 +136,40 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // void _handleLogin(BuildContext context) async {
-  //   final String email = _emailController.text.trim();
-  //   final String password = _passwordController.text.trim();
+  void _handleLogin(BuildContext context) async {
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
 
-  //   if (email == '' || email == null) {
-  //     ShowFlushbar.showFlushbar(context, 'Email Can\'t be Empty', 1500);
-  //     return;
-  //   }
+    if (email == '' || email == null) {
+      ShowFlushbar.showFlushbar(context, 'Email Can\'t be Empty', 1500);
+      return;
+    }
 
-  //   if (password == '' || password == null) {
-  //     ShowFlushbar.showFlushbar(context, 'Password Can\'t be Empty', 1500);
-  //     return;
-  //   }
+    if (password == '' || password == null) {
+      ShowFlushbar.showFlushbar(context, 'Password Can\'t be Empty', 1500);
+      return;
+    }
 
-  //   if (password.length < 6) {
-  //     ShowFlushbar.showFlushbar(
-  //         context, 'Password\'s length is less than 6', 1500);
-  //     return;
-  //   }
+    if (password.length < 6) {
+      ShowFlushbar.showFlushbar(
+          context, 'Password\'s length is less than 6', 1500);
+      return;
+    }
 
-  //   // start the loading dialog
-  //   showAlertDialog(context);
+    // start the loading dialog
+    showAlertDialog(context);
 
-  //   var result = await FirebaseAuthService.loginWithEmail(email, password);
+    var result = await viewModel.userLogin(email, password);
 
-  //   // terminate the dialog
-  //   Navigator.pop(context);
+    // terminate the dialog
+    Navigator.pop(context);
 
-  //   if (result != null) {
-  //     openMainPage(context);
-  //   } else {
-  //     ShowFlushbar.showFlushbar(context, 'Something Went Wrong!!', 1500);
-  //   }
-  // }
+    if (result == true) {
+      openHomeScreen(context);
+    } else {
+      ShowFlushbar.showFlushbar(context, 'Something Went Wrong!!', 1500);
+    }
+  }
 
   showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
