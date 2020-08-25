@@ -33,8 +33,8 @@ class FirestoreService {
         .updateData(todo.toJson());
   }
 
-  Future deleteTodo(Todo todo, String userId) {
-    return firestoreInstance
+  Future deleteTodo(Todo todo, String userId) async {
+    return await firestoreInstance
         .collection('users')
         .document(userId)
         .collection('todos')

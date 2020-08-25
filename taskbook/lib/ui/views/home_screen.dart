@@ -69,8 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
-            color: Colors.brown[200],
+            color: Colors.blue[100],
             child: ListTile(
+              trailing: IconButton(
+                icon: Icon(Icons.delete, color: Colors.red),
+                onPressed: () {
+                  viewModel.deleteTodo(todos[index]);
+                },
+              ),
               leading: todos[index].isComplete
                   ? Icon(Icons.check_box)
                   : Icon(Icons.check_box_outline_blank),
