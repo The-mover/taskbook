@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taskbook/business_logic/models/todo.dart';
 import 'package:taskbook/business_logic/view_models/home_screen_viewmodel.dart';
 import 'package:taskbook/router.dart';
 import 'package:taskbook/services/service_locator.dart';
@@ -19,7 +20,6 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPressed: () async {
-                  // Todo: Logout here
                   await model.userLogout();
                   removeEverythingPushLogin(context);
                 },
@@ -28,10 +28,42 @@ class HomeScreen extends StatelessWidget {
             title: Text('Home Screen'),
           ),
           body: Center(
-            child: Text('Hello Home!'),
+            child: StreamBuilder(
+              stream: model.getTodos(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                } else if (snapshot.data == null) {
+                  return Text('Data is Empty!!');
+                } else if (snapshot.hasData) {
+                  return _buildListview(snapshot.data);
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              final todo =
+                  Todo(title: 'Hello world', details: 'I love the world');
+              model.addTodo(todo);
+            },
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildListview(List<Todo> todos) {
+    return ListView.builder(
+      itemCount: todos.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text('${todos[index].title}'),
+          subtitle: Text('${todos[index].details}'),
+        );
+      },
     );
   }
 }
