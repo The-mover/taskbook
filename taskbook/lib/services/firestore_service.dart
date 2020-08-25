@@ -24,8 +24,8 @@ class FirestoreService {
     return result;
   }
 
-  Future updateTodo(Todo todo, String userId) {
-    return firestoreInstance
+  Future updateTodo(Todo todo, String userId) async {
+    return await firestoreInstance
         .collection('users')
         .document(userId)
         .collection('todos')

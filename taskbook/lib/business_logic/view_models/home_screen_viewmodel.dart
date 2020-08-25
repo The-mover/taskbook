@@ -21,4 +21,9 @@ class HomeScreenViewModel extends ChangeNotifier {
     await _firestoreService.addTodo(todo, _authService.getUserId);
     notifyListeners();
   }
+
+  void updateTodo(Todo todo) async {
+    await _firestoreService.updateTodo(todo, _authService.getUserId);
+    notifyListeners();
+  }
 }

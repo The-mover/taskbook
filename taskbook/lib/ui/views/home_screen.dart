@@ -5,7 +5,14 @@ import 'package:taskbook/business_logic/view_models/home_screen_viewmodel.dart';
 import 'package:taskbook/router.dart';
 import 'package:taskbook/services/service_locator.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  HomeScreenViewModel viewModel = serviceLocator<HomeScreenViewModel>();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeScreenViewModel>(
@@ -25,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
             ],
-            title: Text('Home Screen'),
+            title: Text('Todos'),
           ),
           body: Center(
             child: StreamBuilder(
@@ -44,7 +51,7 @@ class HomeScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () {
+            onPressed: () async {
               final todo =
                   Todo(title: 'Hello world', details: 'I love the world');
               model.addTodo(todo);
@@ -59,9 +66,23 @@ class HomeScreen extends StatelessWidget {
     return ListView.builder(
       itemCount: todos.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text('${todos[index].title}'),
-          subtitle: Text('${todos[index].details}'),
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            color: Colors.brown[200],
+            child: ListTile(
+              leading: todos[index].isComplete
+                  ? Icon(Icons.check_box)
+                  : Icon(Icons.check_box_outline_blank),
+              onTap: () {
+                Todo todo = todos[index];
+                todo.isComplete = !todos[index].isComplete;
+                viewModel.updateTodo(todo);
+              },
+              title: Text('${todos[index].title}'),
+              subtitle: Text('${todos[index].details}'),
+            ),
+          ),
         );
       },
     );
