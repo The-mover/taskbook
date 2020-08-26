@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskbook/ui/utils/fade_in_route.dart';
+import 'package:taskbook/ui/views/create_todo_screen.dart';
 import 'package:taskbook/ui/views/home_screen.dart';
 import 'package:taskbook/ui/views/login_screen.dart';
 import 'package:taskbook/ui/views/signup_screen.dart';
@@ -41,6 +42,14 @@ final Map<String, RouterMethod> _definitions = {
       settings: settings,
       builder: (context) {
         return HomeScreen();
+      },
+    );
+  },
+  '/create_todo': (settings, _) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) {
+        return CreateTodoScreen();
       },
     );
   }
@@ -115,4 +124,8 @@ void openLoginPage(BuildContext context) {
 
 void openHomeScreen(BuildContext context) {
   Navigator.of(context).pushReplacementNamed("/home_screen");
+}
+
+void openCreateTodoScreen(BuildContext context) {
+  Navigator.of(context).pushNamed("/create_todo");
 }

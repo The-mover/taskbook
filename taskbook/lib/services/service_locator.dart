@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:taskbook/business_logic/view_models/create_todo_viewmodel.dart';
 import 'package:taskbook/business_logic/view_models/home_screen_viewmodel.dart';
 import 'package:taskbook/business_logic/view_models/login_viewmodel.dart';
 import 'package:taskbook/business_logic/view_models/signup_viewmodel.dart';
@@ -21,4 +22,6 @@ void setupServiceLocator() {
       .registerFactory<HomeScreenViewModel>(() => HomeScreenViewModel());
   serviceLocator
       .registerFactory<SplashScreenViewModel>(() => SplashScreenViewModel());
+  serviceLocator
+      .registerFactory<CreateTodoViewModel>(() => CreateTodoViewModel());
 }

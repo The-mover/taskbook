@@ -5,13 +5,8 @@ import 'package:taskbook/business_logic/view_models/home_screen_viewmodel.dart';
 import 'package:taskbook/router.dart';
 import 'package:taskbook/services/service_locator.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  HomeScreenViewModel viewModel = serviceLocator<HomeScreenViewModel>();
+class HomeScreen extends StatelessWidget {
+  final HomeScreenViewModel viewModel = serviceLocator<HomeScreenViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () async {
-              final todo =
-                  Todo(title: 'Hello world', details: 'I love the world');
-              model.addTodo(todo);
-            },
+            onPressed: () => openCreateTodoScreen(context),
           ),
         ),
       ),
