@@ -8,7 +8,7 @@ class CreateTodoViewModel extends ChangeNotifier {
   final AuthService _authService = serviceLocator<AuthService>();
   final FirestoreService _firestoreService = serviceLocator<FirestoreService>();
 
-  void addTodo(Todo todo) async {
+  Future addTodo(Todo todo) async {
     await _firestoreService.addTodo(todo, _authService.getUserId);
     notifyListeners();
   }

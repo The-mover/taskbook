@@ -16,12 +16,11 @@ class FirestoreService {
   }
 
   Future addTodo(Todo todo, String userId) async {
-    final result = await firestoreInstance
+    return await firestoreInstance
         .collection('users')
         .document(userId)
         .collection('todos')
         .add(todo.toJson());
-    return result;
   }
 
   Future updateTodo(Todo todo, String userId) async {

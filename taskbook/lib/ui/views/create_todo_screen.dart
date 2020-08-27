@@ -39,11 +39,11 @@ class CreateTodoScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 PrimaryButton(
                   label: 'Add Todo',
-                  onPressed: () {
+                  onPressed: () async {
                     String title = _titleController.text.trim();
                     String details = _detailsController.text.trim();
                     Todo todo = Todo(title: title, details: details);
-                    model.addTodo(todo);
+                    await model.addTodo(todo);
                     Navigator.of(context).pop();
                   },
                 ),
