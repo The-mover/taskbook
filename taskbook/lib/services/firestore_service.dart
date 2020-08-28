@@ -9,9 +9,10 @@ class FirestoreService {
         .collection('users')
         .document(userId)
         .collection('todos')
+        .orderBy('created')
         .snapshots()
         .map((snapshot) => snapshot.documents
-            .map((doc) => Todo.fromJson(doc.data, doc.documentID))
+            .map((doc) => Todo.fromJson(doc.data['todo'], doc.documentID))
             .toList());
   }
 
@@ -20,7 +21,7 @@ class FirestoreService {
         .collection('users')
         .document(userId)
         .collection('todos')
-        .add(todo.toJson());
+        .add({'todo': todo.toJson(), 'created': FieldValue.serverTimestamp()});
   }
 
   Future updateTodo(Todo todo, String userId) async {
@@ -29,7 +30,7 @@ class FirestoreService {
         .document(userId)
         .collection('todos')
         .document(todo.id)
-        .updateData(todo.toJson());
+        .updateData({'todo': todo.toJson()});
   }
 
   Future deleteTodo(Todo todo, String userId) async {
