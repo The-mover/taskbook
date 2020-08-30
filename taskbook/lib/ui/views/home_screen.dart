@@ -35,8 +35,14 @@ class HomeScreen extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasError) {
                   return Text('${snapshot.error}');
-                } else if (snapshot.data == null) {
-                  return Text('Data is Empty!!');
+                } else if (snapshot.data == null || snapshot.data.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset('assets/images/empty_box.png'),
+                      Text('No data to show!!'),
+                    ],
+                  );
                 } else if (snapshot.hasData) {
                   return _buildListview(snapshot.data);
                 }
